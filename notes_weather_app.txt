@@ -1,0 +1,24 @@
+https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
+
+-----------------------------------
+https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+-----------------------------------
+
+
+key
+d3835c83bcca0d1188350ce17234e7cf
+
+icons
+https://openweathermap.org/weather-conditions#How-to-get-icon-URL
+
+
+weather application explanation
+https://www.youtube.com/watch?v=nGVoHEZojiQ
+
+
+
+vanila js 
+https://www.youtube.com/watch?v=nGVoHEZojiQ
+
+
+https://www.youtube.com/watch?v=M5FBzwmC1uM&t=723s

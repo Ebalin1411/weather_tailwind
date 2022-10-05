@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" referrerpolicy="no-referrer" /> <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+</head>
+<body class="bg-black ">
+    
+        <div>
+             <!---Search bar-->
+             <div class="relative">
+                <input id="place_input" class="border-2 border-gray-300 bg-white h-10 w-full  m-8 p-4 rounded-full text-sm focus:outline-none"
+                     type="text"  placeholder="Enter City name">
+                <button onclick="getvalues();" type="submit" class="absolute right-0 top-4 mt-6 -mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607z"/></svg>
+                </button>                
+            </div>
+        <!----show tittle Info-->
+            <div class="flex m-8 p-8 flex-col md:flex-row justify-between">
+                    <div class=""> <!---left-->
+                        <div class="flex  text-white flex-col p-8 space-y-5">
+                            <div class="flex space-x-5">
+                                <div class="w-20 h-20"><img src="./images/weather.png"> </div>
+                                <div>Temperature Number</div>
+                                <div>c/f</div>
+                            </div>                           
+                            <div class="flex space-x-5 ">
+                                <span>Precipitation</span>
+                                <span>humidity</span>
+                                <span>wind</span>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div>day</div>
+                            <div>time</div> 
+                        </div>
+                        <div>
+                            <div>weather status</div>                    
+                        </div> 
+                    </div>
+                    <div class=" flex  flex-col   text-white  p-8"> <!--Right-->
+                        <div>
+                            <span>town name</span>
+                            <span>state</span>
+                        </div>
+                        <div>
+                            <span>day</span>
+                            <span>time</span> 
+                        </div>
+                        <div>
+                            <span>weather status</span>                    
+                        </div>
+                    </div>
+
+            </div>
+
+
+        </div>
+       
+
+    
+    
+</body>
+<script src="./script.js"></script>
+</html>
