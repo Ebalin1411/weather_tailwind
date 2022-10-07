@@ -9,49 +9,49 @@
 </head>
 <body class="bg-black ">
     
-        <div>
+        <div class="m-10 p-10 border-solid border-2 border-gray-500 ">
              <!---Search bar-->
              <div class="relative">
-                <input id="place_input" class="border-2 border-gray-300 bg-white h-10 w-full  m-8 p-4 rounded-full text-sm focus:outline-none"
+                <input id="place_input"  class="border-2 border-gray-300 bg-white h-10 w-full  rounded-full text-xl focus:outline-none"
                      type="text"  placeholder="Enter City name">
-                <button onclick="getvalues();" type="submit" class="absolute right-0 top-4 mt-6 -mr-3">
+                <button onclick="weather_app.getweather_info();" type="submit" class="absolute item-center right-0 top-3  mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607z"/></svg>
                 </button>                
             </div>
         <!----show tittle Info-->
-            <div class="flex m-8 p-8 flex-col md:flex-row justify-between">
+            <div class="flex  flex-col md:flex-row justify-between">
                     <div class=""> <!---left-->
                         <div class="flex  text-white flex-col p-8 space-y-5">
-                            <div class="flex space-x-5">
+                            <div class="flex space-x-5 text-xl">
                                 <div class="w-20 h-20"><img src="./images/weather.png"> </div>
-                                <div>Temperature Number</div>
-                                <div>c/f</div>
+                                <span id="temp" class=""></span>
+                                <div>F</div>
                             </div>                           
-                            <div class="flex space-x-5 ">
+                            <div class="flex space-x-5 text-xl ">
                                 <span>Precipitation</span>
-                                <span>humidity</span>
-                                <span>wind</span>
+                                <span id="humid">Humidity</span>
+                                <span id="wind">wind</span>
                             </div>
                         </div>
-                        <div class="flex">
+                        <div class="flex space-x-5 text-xl ">
                             <div>day</div>
                             <div>time</div> 
                         </div>
                         <div>
-                            <div>weather status</div>                    
+                            <div >weather status</div>                    
                         </div> 
                     </div>
                     <div class=" flex  flex-col   text-white  p-8"> <!--Right-->
-                        <div>
-                            <span>town name</span>
-                            <span>state</span>
+                        <div class="text-2xl font-bold">
+                            <span id="t_name"></span>
+                            <span id="s_name"></span>
                         </div>
                         <div>
                             <span>day</span>
                             <span>time</span> 
                         </div>
                         <div>
-                            <span>weather status</span>                    
+                            <span id="weather_status">Weather Status</span>                    
                         </div>
                     </div>
 

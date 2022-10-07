@@ -22,3 +22,13 @@ https://www.youtube.com/watch?v=nGVoHEZojiQ
 
 
 https://www.youtube.com/watch?v=M5FBzwmC1uM&t=723s
+
+
+
+https://www.youtube.com/watch?v=A0g7sga28Zg&list=LL json into array
+
+API sync
+https://www.youtube.com/watch?v=1Okmw8ggD1Q
+
+//....... Iterate over the Properties of an Object and its Children Objects
+                    //Reference https://www.youtube.com/watch?v=-is1De6H1SI

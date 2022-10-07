@@ -1,65 +1,106 @@
-//http://api.openweathermap.org/data/3.0/onecall/timemachine?lat=39.099724&lon=-94.578331&dt=1643803200&appid={API key}
-//chennai 
-//13.0827° N, 80.2707° E-->lon
-//d3835c83bcca0d1188350ce17234e7cf
-// https://www.latlong.net/   ---->latitude and lon
-
-//weather api without key
-//https://fcc-weather-api.glitch.me/api/current?lat=13.0827&lon=80.2707
-
-let lat = "";
-let lon = ""; 
-let url_api = "";        
-let places=[
-    {
-        city:"Bangalore",
-        latitude:12.971599,
-        longitude:77.594566
-    },
-    {
-        city:"Chennai",
-        latitude:13.082680,
-        longitude:80.270721
-    },
-    {
-        city:"Hyderabad",
-        latitude:17.385044,
-        longitude:78.486671
-    },
-    {
-        city:"Kerala",
-        latitude:10.850516,
-        longitude:76.271080
-    },
-    {
-        city:"Delhi",
-        latitude:28.613939,
-        longitude:77.209023
-    }
+let weather_app={
+    cityInput:'',
+    arrInput:'',
+    town_name:'',
+    state_name:'',
     
-    ]
-    
-    function getvalues(){ 
+    places:[{city:"Bangalore", state:"Karnataka"},{city:"Chennai", state:"Tamil Nadu"},{city:"Hyderabad", state:"Telangana"},{city:"kochi", state:"Kerala"} ],
+
+
+  
+    getvalues:function(){
+             
+        this.cityInput = document.getElementById('place_input').value;      
+             
+        for(let i=0; i< this.places.length; i++){
+
+                if(this.places[i].city.toLowerCase().localeCompare(document.getElementById('place_input').value.toLowerCase()) ===0) {               
+                    this.town_name=this.places[i].city;
+                    this.state_name=this.places[i].state;
+                    console.log(this.town_name + " "+ this.state_name)
+                    document.getElementById('t_name').innerHTML =  this.town_name +",";
+                    document.getElementById('s_name').innerHTML = this.state_name +".";
+                                
+                    }
+                }
+                               
+            
+        },
+
+        getweather_info: async function(){
+            weather_app.getvalues();
+            //console.log(this.cityInput)
+            if(!this.cityInput){
+                alert('Please Enter City Name');
+                return
+                }
+                
+                endpoint =new URL(`http://api.openweathermap.org/data/2.5/weather?q=${this.cityInput}&`)                
+                endpoint.searchParams.set("appid","d3835c83bcca0d1188350ce17234e7cf"); //setting key into the URl
+                console.log(endpoint.toString())                   
+                let response = await fetch(endpoint);
+                    
+                    if(response.status === 404){
+                        alert("City Name not Found");
+                        return;
+                    }   
+
+                    let data =await response.json();
+
+                    
+                    console.log(data.wind.speed);
+                    console.log(data.main.temp);
+                    console.log(data.main.humidity);                    
+                    console.log(data.weather[0].main) ;
+                    console.log(data);
+
+
+                    document.getElementById('weather_status').innerHTML=data.weather[0].main;
+                    document.getElementById('wind').innerHTML=data.wind.speed;                    
+                    document.getElementById('humid').innerHTML = data.main.humidity;
+                    document.getElementById('temp').innerHTML =data.main.temp;
+
+                    //....... Iterate over the Properties of an Object and its Children Objects
+                    
+                //     const isObject =function(val){
+                //         if(val=== null){
+                //             return false;
+                //         }
+                //         return(typeof val ==='object');
+                //     };
+
+                //     const  objProps =function(obj){
+
+                //         for (let val in obj){
+                //             if(isObject(obj[val])){
+                //                 objProps(obj[val]);
+                //             }else{
+                                 
+                //                     if (obj = 'humidity'){
+                //                         console.log(val);
+                //                     }
+
+
+                                   
+                //             }
+                //         }; 
+                //     };
+                //     objProps(weather_arr)
+
+                   
+
+                },
+
         
-        for(let i=0; i<places.length; i++){
-
-           let cityInput = document.getElementById('place_input').value.toLowerCase();
-           let arrInput  = places[i].city.toLowerCase();
-           
-           // console.log("text box input :" + cityInput);
-           // console.log("array input    :" + arrInput);
-           // console.log(arrInput.localeCompare(cityInput));
-           
-            if(arrInput.localeCompare(cityInput) === 0) {
-                lat=places[i].latitude;
-                lon=places[i].longitude; 
-               
-            }  
+            
         }
-        console.log(lat);
-        console.log(lon);
-        url_api="https://fcc-weather-api.glitch.me/api/current?lat="+lat+"&lon="+lon 
-        console.log(url_api);
-    }
-    getvalues();
-    
+        
+        
+      
+       
+
+
+
+
+
+
