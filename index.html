@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>weather</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" referrerpolicy="no-referrer" /> <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" referrerpolicy="no-referrer" /> 
+    
+    
+   
 </head>
 <body class="bg-black ">
     
@@ -17,7 +20,7 @@
                 <button onclick="weather_app.getweather_info()" type="submit" class="absolute item-center right-0 top-3  mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607z"/></svg>
                 </button>                
-            </div>
+            </div> 
         <!----show tittle Info-->
             <div class="flex  flex-col md:flex-row justify-between">
                     <div class=""> <!---left-->
@@ -25,7 +28,12 @@
                             <div class="flex space-x-5 text-xl">
                                 <div class="w-20 h-20"><img src="./images/weather.png"> </div>
                                 <span id="temp" class="">Temperature</span>
-                                <div>F</div>
+                                <div>
+                                    <span id="tem_F">F</span>
+                                    <span>/</span>
+                                    <span id="tem_C">C</span>
+                                </div>
+
                                 <div class="flex flex-col space-x-5 text-xl ">
                                     <span>Precipitation</span>
                                     <span id="humid">Humidity</span>
@@ -33,11 +41,12 @@
                                 </div>
 
                             </div>                           
-                            <div class="flex space-x-5 text-xl ">
-                                <span>Precipitation</span>
-                                <span id="">Humidity</span>
-                                <span id="">Wind</span>
+                            <div class="flex space-x-5 text-xl p-8 ">
+                                <button onclick="weather_app.showChart()">Temperature</button>
+                                <button id="">Precipitation</button>
+                                <button id="">Wind</button>
                             </div>
+                           
                         </div>
                         <div class="flex space-x-5 text-xl ">
                             <div>Day</div>
@@ -59,10 +68,12 @@
                         <div>
                             <span id="weather_status">Weather Status</span>                    
                         </div>
-                    </div>
+                    </div>                 
 
             </div>
-
+            <div class="container border-solid border-2 border-gray-500  ">
+                <canvas id="myChart" width="200" height="200"></canvas>
+            </div>
 
         </div>
        
@@ -71,4 +82,7 @@
     
 </body>
 <script src="./script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+
+
 </html>

@@ -3,7 +3,7 @@ let weather_app={
     arrInput:'',
     town_name:'',
     state_name:'',
-    
+  
     places:[ {
         city:"Bangalore",
         state:"Karnataka",
@@ -76,9 +76,9 @@ let weather_app={
                     } 
             } 
 
-            if (hour===0 && prepand===' AM ') 
+            if (hour===0 && prepand==='AM') 
             { 
-                if (minute===0 && second===0)
+                if (minute===0)
                      { 
                         hour=12;
                         prepand=' Midnight';
@@ -94,24 +94,25 @@ let weather_app={
 
         },
 
-
-
+      
+                       
+           
 
 
         //Fetch weather data from Openweather
         getweather_info: async function(){
                     
-            weather_app.getDateTime();
+           
             //console.log(this.cityInput)
             if(!this.cityInput){
                 alert('Please Enter City Name');
                 return
                 }
                 
-                endpoint =new URL(`http://api.openweathermap.org/data/2.5/weather?q=${this.cityInput}&`)                
-                endpoint.searchParams.set("appid","d3835c83bcca0d1188350ce17234e7cf"); //setting key into the URl
-                console.log(endpoint.toString())                   
-                let response = await fetch(endpoint);
+                weatherUrl =new URL(`http://api.openweathermap.org/data/2.5/weather?q=${this.cityInput}&`)                
+                weatherUrl.searchParams.set("appid","d3835c83bcca0d1188350ce17234e7cf"); //setting key into the URl
+                console.log(weatherUrl.toString())                   
+                let response = await fetch(weatherUrl);
                     
                     if(response.status === 404){
                         alert("City Name not Found");
@@ -121,8 +122,17 @@ let weather_app={
                     let data =await response.json();
 
                     
-                    console.log(data.wind.speed);
-                    console.log(data.main.temp);
+                    console.log(data.wind.speed);                   
+                    console.log(data.main.temp); //Json temp is in kelvin
+                    //converting kelvin to Fa
+                    let kToFahrTemp = Math.round((data.main.temp -273.15)*1.8) + 32;
+                    console.log(kToFahrTemp);
+                    
+                    //converting kelvin to Cel
+                    let kToCelsTemp = Math.round((data.main.temp - 273.15));     
+                    console.log(kToCelsTemp);
+                    
+
                     console.log(data.main.humidity);                    
                     console.log(data.weather[0].main) ;
                     console.log(data);
@@ -130,20 +140,55 @@ let weather_app={
 
                     document.getElementById('weather_status').innerHTML=data.weather[0].main;
                     document.getElementById('wind').innerHTML=data.wind.speed;                    
-                    document.getElementById('humid').innerHTML = data.main.humidity;
-                  
-                    document.getElementById('temp').innerHTML =data.main.temp;
+                    document.getElementById('humid').innerHTML = data.main.humidity;                  
+                    document.getElementById('temp').innerHTML =kToFahrTemp;
 
-                 
+                
                 },
 
-       
+       showChart : function(){
+
+        const labels = [
+            '9:am',
+            '10:am',
+            '11:am',
+            '12:pm',
+            '13:pm',
+            '14:pm',
+             ]; 
+
+        const data = {
+                labels: labels,
+                datasets: [{
+                label: 'My First dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [60, 62, 59, 60, 61, 61, 60],
+
+                }]
+              };
+        
+            const config = {
+                                type: 'line',
+                                data: data,
+                                options: {},
+                            }       
+                
+
+                             const myChart = new Chart(
+                                 document.getElementById('myChart'),
+                                 config
+                              );
+                
+               
 
                 
             
-        }
-        
-        
+        },
+
+    }
+    weather_app.getDateTime();
+    
       
        
 

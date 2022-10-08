@@ -91,6 +91,74 @@ let weather_app={
 
                 },
 
+                
+        chartshow: async function(){
+
+            chartdataUrl =new URL(`http://api.openweathermap.org/data/2.5/forecast?q=${this.cityInput}&`)                
+            chartdataUrl.searchParams.set("appid","d3835c83bcca0d1188350ce17234e7cf"); //setting key into the URl
+            console.log(chartdataUrl.toString())                   
+            let response = await fetch(chartdataUrl);
+                
+                if(response.status === 404){
+                    alert("Something wrong with the weather data fetch");
+                    return;
+                }  
+              
+            let data =await response.json();
+
+             
+            dates = data.list.map(list => {
+                return list.dt_txt;
+            });
+    
+            temps = data.list.map(list => {
+                return list.main.temp;
+            });
+    
+    
+            var options = {
+                series: [{
+                    name: 'Temp',
+                    data: temps,
+                }],
+                chart: {
+                    height: 350,
+                    type: 'area'
+                },
+                dataLabels: {
+                    enabled: true
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
+    
+                xaxis: {
+                    type: 'time',
+                    // categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z"],
+                    categories: dates,
+                    labels: {
+                        // format: 'hh:mmTT',
+                    },
+                    time: {
+                        parser: 'MM/DD HH:mm',
+                        tooltipFormat: 'HH:mm',
+                        unit: 'hour',
+                        unitStepSize: 3,
+                        displayFormats: {
+                            'time': 'MM/DD HH:mm'
+                        }
+                    }
+                },
+
+         
+            };
+      
+            var chart = new Chart(document.getElementById('myChart'), options);
+            chart.destroy();
+            chart.render();
+        }
+    }
+
         
             
         }
