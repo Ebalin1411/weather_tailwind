@@ -4,15 +4,38 @@ let weather_app={
     town_name:'',
     state_name:'',
     
-    places:[{city:"Bangalore", state:"Karnataka"},{city:"Chennai", state:"Tamil Nadu"},{city:"Hyderabad", state:"Telangana"},{city:"kochi", state:"Kerala"} ],
+    places:[ {
+        city:"Bangalore",
+        state:"Karnataka",
+        // latitude :"12.971599",
+        // longitude :"77.594566"
+        },
+        {
+        city:"Chennai",
+        state:"Tamil Nadu",
+        // latitude :"13.082680",
+        // longitude :"80.270721"
+        },
+        {
+        city:"Hyderabad",
+        state:"Telangana",
+        // latitude :"17.385044",
+        // longitude :"78.486671"
+        },
+        {
+        city:"kochi",
+        state:"Kerala",
+        // latitude :"9.931233",
+        // longitude :"76.267303"
+        }],
 
 
-  
-    getvalues:function(){
+        // getting location 
+        getvalues:function(){
              
-        this.cityInput = document.getElementById('place_input').value;      
+            this.cityInput = document.getElementById('place_input').value;      
              
-        for(let i=0; i< this.places.length; i++){
+            for(let i=0; i< this.places.length; i++){
 
                 if(this.places[i].city.toLowerCase().localeCompare(document.getElementById('place_input').value.toLowerCase()) ===0) {               
                     this.town_name=this.places[i].city;
@@ -27,8 +50,58 @@ let weather_app={
             
         },
 
+        getDateTime:function(){
+                     
+            weather_app.getvalues();  
+            var today = new Date();
+            var day = today.getDay();
+            var daylist = ["Sunday","Monday","Tuesday","Wednesday ","Thursday","Friday","Saturday"];
+         
+            var hour = today.getHours();
+            var minute = today.getMinutes();
+ 
+            var prepand = (hour >= 12)? " PM ":" AM ";
+            hour = (hour >= 12)? hour - 12: hour;
+            if (hour===0 && prepand===' PM ') 
+             { 
+                if (minute===0)
+                    { 
+                        hour=12;
+                        prepand=' Noon';
+                    } 
+                 else
+                     { 
+                        hour=12;
+                        prepand=' PM';
+                    } 
+            } 
+
+            if (hour===0 && prepand===' AM ') 
+            { 
+                if (minute===0 && second===0)
+                     { 
+                        hour=12;
+                        prepand=' Midnight';
+                    } 
+                else
+                    { 
+                    hour=12;
+                    prepand=' AM';
+                    } 
+            }
+            //console.log(daylist[day] + ",  "+hour  + " : " + minute + prepand );
+            document.getElementById('date_time').innerHTML =  daylist[day] + ",  "+hour  + " : " + minute + prepand      
+
+        },
+
+
+
+
+
+        //Fetch weather data from Openweather
         getweather_info: async function(){
-            weather_app.getvalues();
+                    
+            weather_app.getDateTime();
             //console.log(this.cityInput)
             if(!this.cityInput){
                 alert('Please Enter City Name');
@@ -43,8 +116,8 @@ let weather_app={
                     if(response.status === 404){
                         alert("City Name not Found");
                         return;
-                    }   
-
+                    }  
+                  
                     let data =await response.json();
 
                     
@@ -60,38 +133,12 @@ let weather_app={
                     document.getElementById('humid').innerHTML = data.main.humidity;
                     document.getElementById('temp').innerHTML =data.main.temp;
 
-                    //....... Iterate over the Properties of an Object and its Children Objects
-                    
-                //     const isObject =function(val){
-                //         if(val=== null){
-                //             return false;
-                //         }
-                //         return(typeof val ==='object');
-                //     };
-
-                //     const  objProps =function(obj){
-
-                //         for (let val in obj){
-                //             if(isObject(obj[val])){
-                //                 objProps(obj[val]);
-                //             }else{
-                                 
-                //                     if (obj = 'humidity'){
-                //                         console.log(val);
-                //                     }
-
-
-                                   
-                //             }
-                //         }; 
-                //     };
-                //     objProps(weather_arr)
-
-                   
-
+                 
                 },
 
-        
+       
+
+                
             
         }
         
