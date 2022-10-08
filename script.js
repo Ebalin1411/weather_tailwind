@@ -131,6 +131,7 @@ let weather_app={
                     document.getElementById('weather_status').innerHTML=data.weather[0].main;
                     document.getElementById('wind').innerHTML=data.wind.speed;                    
                     document.getElementById('humid').innerHTML = data.main.humidity;
+                  
                     document.getElementById('temp').innerHTML =data.main.temp;
 
                  
