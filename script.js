@@ -93,7 +93,7 @@ let weather_app={
 
 
         //Fetch weather data from Openweather
-        getweather_info: function(){
+        getweather_info: async function(){
                     
             weather_app.getvalues();  
             //console.log(this.cityInput)
@@ -107,8 +107,10 @@ let weather_app={
                 weatherUrl.searchParams.set("units","metric") // temp formate kelvin to Fa
                 console.log(weatherUrl.toString())                   
                 
-                 fetch(weatherUrl)
-                    .then(response=>response.json())
+               await fetch(weatherUrl)                 
+
+                    
+                   .then(response=>response.json())
                     .then(data=>{
                             // console.log(data.main)   
                             // console.log(data.wind.speed);                   
@@ -127,15 +129,15 @@ let weather_app={
                     weather_app.showChart();
                 },
 
-       showChart : function(){
+       showChart : async function(){
 
-                const labels='';
+            
                 chartdataUrl =new URL(`http://api.openweathermap.org/data/2.5/forecast?q=${this.cityInput}&`)                
                 chartdataUrl.searchParams.set("appid","d3835c83bcca0d1188350ce17234e7cf"); //setting key into the URl                              
                 chartdataUrl.searchParams.set("units","metric")
                 console.log(chartdataUrl.toString())   
-                let fetchResponse= fetch(chartdataUrl) 
-                    fetchResponse.then(response=>response.json())
+                            await fetch(chartdataUrl) 
+                                 .then(response=>response.json())
                                  .then(data=>{
                     
                     // date for chart x axis
@@ -163,6 +165,31 @@ let weather_app={
                             return index.main.temp
                         })
                     console.log(chart_temp)
+
+                    const chart_data = {
+                        //  labels: 
+                          datasets: [{
+                          label: this.cityInput + ' Temperature',
+                          backgroundColor: 'rgb(255, 99, 132)',
+                          borderColor: 'rgb(255, 99, 132)',
+                         // data: [60, 62, 59, 60, 61, 61, 60],   //need to to fetch from open weather
+          
+                          }]
+                        };
+                  
+                      const config = {
+                                          type: 'line',
+                                          data: chart_data,
+                                          options: {},
+                                      }       
+                          
+          
+                                       const myChart = new Chart(
+                                           document.getElementById('myChart'),
+                                           config
+                                        );
+                          
+                 
                         
                   
                    myChart.config.data.labels =date;
@@ -175,29 +202,6 @@ let weather_app={
 
        
 
-        const chart_data = {
-              //  labels: 
-                datasets: [{
-                label: this.cityInput + ' Temperature',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-               // data: [60, 62, 59, 60, 61, 61, 60],   //need to to fetch from open weather
-
-                }]
-              };
-        
-            const config = {
-                                type: 'line',
-                                data: chart_data,
-                                options: {},
-                            }       
-                
-
-                             const myChart = new Chart(
-                                 document.getElementById('myChart'),
-                                 config
-                              );
-                
                               
 
                 
