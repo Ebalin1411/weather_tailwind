@@ -93,7 +93,7 @@ let weather_app={
 
 
         //Fetch weather data from Openweather
-        getweather_info: async function(){
+        getweather_info: function(){
                     
             weather_app.getvalues();  
             //console.log(this.cityInput)
@@ -102,14 +102,14 @@ let weather_app={
                 return
                 }
                 
-                weatherUrl =new URL(`http://api.openweathermap.org/data/2.5/weather?q=${this.cityInput}&`)                
+                weatherUrl =new URL(`https://api.openweathermap.org/data/2.5/weather?q=${this.cityInput}&`)                
                 weatherUrl.searchParams.set("appid","d3835c83bcca0d1188350ce17234e7cf"); //setting key into the URl
                 weatherUrl.searchParams.set("units","metric") // temp formate kelvin to Fa
-                console.log(weatherUrl.toString())                   
-                
-               await fetch(weatherUrl)                 
+                console.log(weatherUrl.toString()) 
 
-                    
+                
+               
+                fetch(weatherUrl)
                    .then(response=>response.json())
                     .then(data=>{
                             // console.log(data.main)   
@@ -129,14 +129,14 @@ let weather_app={
                     weather_app.showChart();
                 },
 
-       showChart : async function(){
+       showChart :  function(){
 
             
-                chartdataUrl =new URL(`http://api.openweathermap.org/data/2.5/forecast?q=${this.cityInput}&`)                
+                chartdataUrl =new URL(`https://api.openweathermap.org/data/2.5/forecast?q=${this.cityInput}&`)                
                 chartdataUrl.searchParams.set("appid","d3835c83bcca0d1188350ce17234e7cf"); //setting key into the URl                              
                 chartdataUrl.searchParams.set("units","metric")
                 console.log(chartdataUrl.toString())   
-                            await fetch(chartdataUrl) 
+                             fetch(chartdataUrl) 
                                  .then(response=>response.json())
                                  .then(data=>{
                     
