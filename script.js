@@ -41,6 +41,8 @@ let weather_app={
                     document.getElementById('s_name').innerHTML = this.state_name +".";
                                 
                     }
+                
+
                 }
                                
             
@@ -107,25 +109,26 @@ let weather_app={
                 weatherUrl.searchParams.set("units","metric") // temp formate kelvin to Fa
                 console.log(weatherUrl.toString()) 
 
-                
+
+                fetch(weatherUrl).then((response) => {
+                    if (response.ok) {
+                      return response.json();
+                    }
+                    alert('Location Not Found');
+                  })
+                  .then((data) => {
+                    this.cityTemp = data.main.temp
+                    document.getElementById('weather_status').innerHTML=data.weather[0].main;
+                    document.getElementById('wind').innerHTML=data.wind.speed;                    
+                    document.getElementById('humid').innerHTML = data.main.humidity;                  
+                    document.getElementById('temp').innerHTML = this.cityTemp;
+                    
+                  })
+                 
+                  .catch((error) => {
+                    console.log(error)
+                  });               
                
-                fetch(weatherUrl)
-                   .then(response=>response.json())
-                    .then(data=>{
-                            // console.log(data.main)   
-                            // console.log(data.wind.speed);                   
-                            // console.log(data.main.temp);                             
-                            // console.log(data.main.humidity);                    
-                            // console.log(data.weather[0].main) ;
-                            // console.log(data);
-
-                            this.cityTemp = data.main.temp
-                            document.getElementById('weather_status').innerHTML=data.weather[0].main;
-                            document.getElementById('wind').innerHTML=data.wind.speed;                    
-                            document.getElementById('humid').innerHTML = data.main.humidity;                  
-                            document.getElementById('temp').innerHTML = this.cityTemp;
-                    })
-
                     weather_app.showChart();
                 },
 
@@ -135,11 +138,16 @@ let weather_app={
                 chartdataUrl =new URL(`https://api.openweathermap.org/data/2.5/forecast?q=${this.cityInput}&`)                
                 chartdataUrl.searchParams.set("appid","d3835c83bcca0d1188350ce17234e7cf"); //setting key into the URl                              
                 chartdataUrl.searchParams.set("units","metric")
-                console.log(chartdataUrl.toString())   
-                             fetch(chartdataUrl) 
-                                 .then(response=>response.json())
-                                 .then(data=>{
-                    
+                console.log(chartdataUrl.toString())  
+                
+                
+                fetch(chartdataUrl).then((response) => {
+                    if (response.ok) {
+                      return response.json();
+                    }
+                    alert('Chart Record Not Found. Incorrect Location');
+                  })
+                  .then((data) => {
                     // date for chart x axis
                     // console.log(data.list[0].dt)
                     // console.log(new Date((data.list[0].dt_txt)).toLocaleDateString());
@@ -197,14 +205,12 @@ let weather_app={
                    myChart.config.data.datasets[0].data =chart_temp;                   
                    myChart.update();
                    
-                })
-        
+                    
 
-       
-
-                              
-
-                
+                  })
+                  .catch((error) => {
+                    console.log(error)
+                  });
             
         },
 
