@@ -201,7 +201,7 @@ let weather_app={
                         
                   
                    myChart.config.data.labels =date;
-                   //myChart.config.data.labels =day;
+                   myChart.config.data.labels =day;
                    myChart.config.data.datasets[0].data =chart_temp;                   
                    myChart.update();
                    
