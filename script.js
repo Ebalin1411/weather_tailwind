@@ -3,30 +3,26 @@ let weather_app={
     arrInput:'',
     town_name:'',
     state_name:'',
-  
+    kToCelsTemp:'',
+    kToFahrTemp:'',
+    cityTemp:'',
+    
     places:[ {
         city:"Bangalore",
-        state:"Karnataka",
-        // latitude :"12.971599",
-        // longitude :"77.594566"
+        state:"Karnataka"        
         },
         {
         city:"Chennai",
-        state:"Tamil Nadu",
-        // latitude :"13.082680",
-        // longitude :"80.270721"
+        state:"Tamil Nadu"       
         },
         {
         city:"Hyderabad",
-        state:"Telangana",
-        // latitude :"17.385044",
-        // longitude :"78.486671"
+        state:"Telangana"       
         },
         {
         city:"kochi",
-        state:"Kerala",
-        // latitude :"9.931233",
-        // longitude :"76.267303"
+        state:"Kerala"
+       
         }],
 
 
@@ -52,7 +48,7 @@ let weather_app={
 
         getDateTime:function(){
                      
-            weather_app.getvalues();  
+           
             var today = new Date();
             var day = today.getDay();
             var daylist = ["Sunday","Monday","Tuesday","Wednesday ","Thursday","Friday","Saturday"];
@@ -94,15 +90,12 @@ let weather_app={
 
         },
 
-      
-                       
-           
 
 
         //Fetch weather data from Openweather
-        getweather_info: async function(){
+        getweather_info: function(){
                     
-           
+            weather_app.getvalues();  
             //console.log(this.cityInput)
             if(!this.cityInput){
                 alert('Please Enter City Name');
@@ -111,66 +104,91 @@ let weather_app={
                 
                 weatherUrl =new URL(`http://api.openweathermap.org/data/2.5/weather?q=${this.cityInput}&`)                
                 weatherUrl.searchParams.set("appid","d3835c83bcca0d1188350ce17234e7cf"); //setting key into the URl
+                weatherUrl.searchParams.set("units","metric") // temp formate kelvin to Fa
                 console.log(weatherUrl.toString())                   
-                let response = await fetch(weatherUrl);
-                    
-                    if(response.status === 404){
-                        alert("City Name not Found");
-                        return;
-                    }  
-                  
-                    let data =await response.json();
-
-                    
-                    console.log(data.wind.speed);                   
-                    console.log(data.main.temp); //Json temp is in kelvin
-                    //converting kelvin to Fa
-                    let kToFahrTemp = Math.round((data.main.temp -273.15)*1.8) + 32;
-                    console.log(kToFahrTemp);
-                    
-                    //converting kelvin to Cel
-                    let kToCelsTemp = Math.round((data.main.temp - 273.15));     
-                    console.log(kToCelsTemp);
-                    
-
-                    console.log(data.main.humidity);                    
-                    console.log(data.weather[0].main) ;
-                    console.log(data);
-
-
-                    document.getElementById('weather_status').innerHTML=data.weather[0].main;
-                    document.getElementById('wind').innerHTML=data.wind.speed;                    
-                    document.getElementById('humid').innerHTML = data.main.humidity;                  
-                    document.getElementById('temp').innerHTML =kToFahrTemp;
-
                 
+                 fetch(weatherUrl)
+                    .then(response=>response.json())
+                    .then(data=>{
+                            // console.log(data.main)   
+                            // console.log(data.wind.speed);                   
+                            // console.log(data.main.temp);                             
+                            // console.log(data.main.humidity);                    
+                            // console.log(data.weather[0].main) ;
+                            // console.log(data);
+
+                            this.cityTemp = data.main.temp
+                            document.getElementById('weather_status').innerHTML=data.weather[0].main;
+                            document.getElementById('wind').innerHTML=data.wind.speed;                    
+                            document.getElementById('humid').innerHTML = data.main.humidity;                  
+                            document.getElementById('temp').innerHTML = this.cityTemp;
+                    })
+
+                    weather_app.showChart();
                 },
 
        showChart : function(){
 
-        const labels = [
-            '9:am',
-            '10:am',
-            '11:am',
-            '12:pm',
-            '13:pm',
-            '14:pm',
-             ]; 
+                const labels='';
+                chartdataUrl =new URL(`http://api.openweathermap.org/data/2.5/forecast?q=${this.cityInput}&`)                
+                chartdataUrl.searchParams.set("appid","d3835c83bcca0d1188350ce17234e7cf"); //setting key into the URl                              
+                chartdataUrl.searchParams.set("units","metric")
+                console.log(chartdataUrl.toString())   
+                let fetchResponse= fetch(chartdataUrl) 
+                    fetchResponse.then(response=>response.json())
+                                 .then(data=>{
+                    
+                    // date for chart x axis
+                    // console.log(data.list[0].dt)
+                    // console.log(new Date((data.list[0].dt_txt)).toLocaleDateString());
+                    // console.log(new Date((data.list[0].dt_txt)).toDateString());
+                    // console.log(data.list[1].dt_txt)
+                    const day = data.list.map(  
+                        function(index){
+                            return new Date(index.dt_txt).toDateString();
+                        })
+                        console.log(day) 
 
-        const data = {
-                labels: labels,
+                    const date = data.list.map(             
+                        function(index){
+                            return new Date(index.dt_txt).toLocaleTimeString();
+                        })
+                    console.log(date)
+                    //Temperature for Y axis
+                    // console.log(data.list[0].main.temp)
+                    // console.log(data.list[1].main.temp)
+                   
+                   const chart_temp =data.list.map(
+                        function(index){
+                            return index.main.temp
+                        })
+                    console.log(chart_temp)
+                        
+                  
+                   myChart.config.data.labels =date;
+                   //myChart.config.data.labels =day;
+                   myChart.config.data.datasets[0].data =chart_temp;                   
+                   myChart.update();
+                   
+                })
+        
+
+       
+
+        const chart_data = {
+              //  labels: 
                 datasets: [{
-                label: 'My First dataset',
+                label: this.cityInput + ' Temperature',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
-                data: [60, 62, 59, 60, 61, 61, 60],
+               // data: [60, 62, 59, 60, 61, 61, 60],   //need to to fetch from open weather
 
                 }]
               };
         
             const config = {
                                 type: 'line',
-                                data: data,
+                                data: chart_data,
                                 options: {},
                             }       
                 
@@ -180,7 +198,7 @@ let weather_app={
                                  config
                               );
                 
-               
+                              
 
                 
             

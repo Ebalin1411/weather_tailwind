@@ -3,6 +3,33 @@ let weather_app={
     arrInput:'',
     town_name:'',
     state_name:'',
+   
+        places:[ {
+            city:"Bangalore",
+            state:"Karnataka", 
+             // latitude :"12.971599",
+        // longitude :"77.594566"
+       
+            },
+            {
+            city:"Chennai",
+            state:"Tamil Nadu",
+            
+            },
+            {
+            city:"Hyderabad",
+            state:"Telangana",
+            // latitude :"17.385044",
+            // longitude :"78.486671"
+            },
+            {
+            city:"kochi",
+            state:"Kerala",
+            // latitude :"9.931233",
+            // longitude :"76.267303"
+            }],
+    
+    
     
     places:[{city:"Bangalore", state:"Karnataka"},{city:"Chennai", state:"Tamil Nadu"},{city:"Hyderabad", state:"Telangana"},{city:"kochi", state:"Kerala"} ],
 
@@ -159,7 +186,13 @@ let weather_app={
         }
     }
 
-        
+         //converting kelvin to Fa
+         this.kToFahrTemp = Math.round((this.cityTemp -273.15)*1.8) + 32;
+         console.log(this.kToFahrTemp);
+         
+         //converting kelvin to Cel
+         this.kToCelsTemp = Math.round((this.cityTemp - 273.15));     
+         console.log(this.kToCelsTemp);
             
         }
         
